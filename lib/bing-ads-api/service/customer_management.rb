@@ -66,9 +66,15 @@ module BingAdsApi
 				{customer_id: customer_id || self.client_proxy.customer_id, 
 				only_parent_accounts: only_parent_accounts.to_s})
 			response_hash = get_response_hash(response, __method__)
-			accounts = response_hash[:accounts_info][:account_info].map do |account_hash|
-				BingAdsApi::AccountInfo.new(account_hash)
-			end
+      accounts = response_hash[:accounts_info][:account_info]
+      if accounts.is_a?(Array)
+        accounts.map do |account_hash|
+				  BingAdsApi::AccountInfo.new(account_hash)
+			  end
+      else
+        #When there is only one account microsoft does not return an array but a single object :|
+        accounts = [BingAdsApi::AccountInfo.new(accounts)]
+      end
 			return accounts
 		end
 

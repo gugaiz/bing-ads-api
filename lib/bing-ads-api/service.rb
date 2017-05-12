@@ -90,10 +90,12 @@ module BingAdsApi
 				LOGGER.debug "BingAdsApi Service"
 				LOGGER.debug "   Calling #{operation.to_s}"
 				LOGGER.debug "   Message: #{message}"
-				response = self.client_proxy.call(operation.to_sym,
+        response = self.client_proxy.call(operation.to_sym,
 					message: message)
 				LOGGER.debug "response header:"
 				LOGGER.debug "\t#{response.header}"
+				LOGGER.debug "response body:"
+				LOGGER.debug "\t#{response.body}"
 
 				LOGGER.info "Operation #{operation.to_s} call success"
 				return response.hash
